@@ -8,8 +8,6 @@ jobs:
    container:
     image: python:3.6
     options: --user root
-    env:
-       BUILD_WRAPPER_OUT_DIR: "$GITHUB_WORKSPACE/bw-output" 
    steps:
      - name: checkout code
        uses: actions/checkout@v2 # This action to checkout the code
@@ -48,12 +46,7 @@ jobs:
        with:
          name: ns-3_c-v2x
          path: /__w/ns-3_c-v2x/ns-3_c-v2x/build
-         if-no-files-found: error              
-     - name: Archive buildwrapper output
-       uses: actions/upload-artifact@v3  # This action is used to capture the builwrapper output files used by sonarscan.
-       with: 
-         name: ns-3_c-v2x
-         path: /home/runner/work/ns-3_c-v2x/ns-3_c-v2x/bw-output       
+         if-no-files-found: error                    
      - name: Setup SonarScanner
        uses: warchant/setup-sonar-scanner@v4 # This action is used to setup sonar scanner with required versions.
        with:
@@ -68,7 +61,6 @@ jobs:
          sonar.organization=usdot-fhwa-stol
          sonar.sources=.
          sonar.exclusions=src/ppm.cpp
-         sonar.cfamily.build-wrapper-output=bw-output
          sonar.cfamily.compile-commands=/__w/ns-3_c-v2x/ns-3_c-v2x/build/compile_commands.json
          sonar.sonar.projectBaseDir=/home/runner/work/ns-3_c-v2x/ns-3_c-v2x/
          # Set Git as SCM sensor
