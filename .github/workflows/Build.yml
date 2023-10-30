@@ -1,7 +1,9 @@
-name: Ns3
-on: 
- push:
-
+name: CI
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [develop, master]
 jobs:
   ns-3_c-v2x:
    runs-on: ubuntu-latest-8-cores
@@ -50,7 +52,7 @@ jobs:
      - name: Setup SonarScanner
        uses: warchant/setup-sonar-scanner@v4 # This action is used to setup sonar scanner with required versions.
        with:
-         version: 4.8.0.2856
+         version: 5.0.1.3006
      - name: Generate sonar properties file
        run: |
          cat <<EOF > /tmp/sonar-scanner.properties
