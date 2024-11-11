@@ -10,7 +10,7 @@ jobs:
     options: --user root
    steps:
      - name: checkout code
-       uses: actions/checkout@v2 # This action to checkout the code
+       uses: actions/checkout@v4 # This action to checkout the code
      - name: Install Deps
        run: |
          apt update
@@ -42,15 +42,13 @@ jobs:
          cd $GITHUB_WORKSPACE
          python3.6 -x test.py || true # Ignore test failures and continue                
      - name: Archive code coverage results
-       uses: actions/upload-artifact@v3 # This action is used to capture the test artifacts and exits if no files are found
+       uses: actions/upload-artifact@v4 # This action is used to capture the test artifacts and exits if no files are found
        with:
          name: ns-3_c-v2x
          path: /__w/ns-3_c-v2x/ns-3_c-v2x/build
          if-no-files-found: error                    
      - name: Setup SonarScanner
-       uses: warchant/setup-sonar-scanner@v4 # This action is used to setup sonar scanner with required versions.
-       with:
-         version: 4.8.0.2856
+       uses: warchant/setup-sonar-scanner@v7 # This action is used to setup sonar scanner with required versions.
      - name: Generate sonar properties file
        run: |
          cat <<EOF > /tmp/sonar-scanner.properties
